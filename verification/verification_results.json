@@ -1,0 +1,529 @@
+{
+ "generated_utc": "2026-10-24 08:57 UTC",
+ "spec_id": "BP_d40_D14_W5_PT50_SL2",
+ "spec_hash": "40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196",
+ "spec_hash_matches_recorded": true,
+ "inputs": {
+  "PREREGISTRATION.md": "583209c058e90f365b76604f5f989308ad6fcf97ae20ce190b05b93f84810465",
+  "code/01_engine.py": "cfd6d07464365c983becd7605544cca9f41f86c179f09a193d23c1f3b2af4978",
+  "code/02_run_grid.py": "75f59e55142717897b48e21769267799318a4c26a9957a9d7d9a4cc93f977943",
+  "data/spy.csv": "8bc42100304f1eaa9e30a681e4ffff9e0356515b218d32ef584606e3970fd5b2",
+  "data/vix.csv": "40dce264a55182ed5fa308f84b0ebe004914d1e330f329847dea9a3fbe5d0ba6",
+  "data/tnx.csv": "ab025af597e1a16e4bb0bf73043a27c81baf7122f57948ba93551b79a26ae4b3",
+  "LEADERBOARD.csv": "3cf09edd301074df409ad7dda83ec83241a5e77d62cc8bd74e414d5a11d204f5",
+  "results/winner_trades_risk2.csv": "c53be0acea8e413eda94612078851c13a5f8a21e13553f08769a866875ded0c3",
+  "results/winner_trades_risk5.csv": "4279cff5b9e4b8f98ec8960b4c5b2482ef3ad626f27b921937cafb3c1dc829d1",
+  "results/winner_equity_risk2.csv": "a3d7ca05201a2c9f8db55269be22b20f313c3694ded0c3d602ff71355ef5cb72"
+ },
+ "preregistration_hash_matches_frozen": true,
+ "unit_tests": {
+  "passed": true,
+  "summary": "36 passed in 0.20s"
+ },
+ "calendar": {
+  "first": "2007-01-03",
+  "last": "2026-10-23",
+  "data_days": 4984,
+  "calendar_days": 4984,
+  "in_data_not_calendar": [],
+  "in_calendar_not_data": [],
+  "pass": true
+ },
+ "parity": {
+  "windows": {
+   "IS_risk2": {
+    "label": "IS risk=2%",
+    "n_bot": 412,
+    "n_ref": 412,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.1709744285326451e-11,
+     "risk": 9.777068044058979e-12,
+     "ror": 7.438494264988549e-15,
+     "vix_entry": 0.0,
+     "credit": 9.777068044058979e-12,
+     "debit": 0.0
+    },
+    "pass": true,
+    "equity_max_abs_diff": 6.111804395914078e-10,
+    "final_equity_bot": 122122.40996403736,
+    "final_equity_ref": 122122.40996403794,
+    "entry_weeks_skipped_for_lot_size": 0,
+    "metrics_bot": {
+     "n": 412.0,
+     "cagr": 0.01833457130957261,
+     "sharpe": 0.6194665435731316,
+     "sortino": 0.6676161969696329,
+     "maxdd": -0.10550594291037318,
+     "calmar": 0.17377761672769226,
+     "pf": 1.3421466291074968,
+     "win": 0.8131067961165048,
+     "exp": 0.028710689742532484,
+     "tpy": 37.45454545454545
+    },
+    "metrics_max_rel_diff_vs_engine": 3.153966911100936e-14,
+    "published_leaderboard": {
+     "n": 412.0,
+     "cagr": 0.018334571309573,
+     "sharpe": 0.6194665435731489,
+     "sortino": 0.6676161969696511,
+     "maxdd": -0.1055059429103727,
+     "calmar": 0.1737776167276972,
+     "pf": 1.3421466291075073,
+     "win": 0.8131067961165048,
+     "exp": 0.0287106897425333,
+     "tpy": 37.45454545454545
+    },
+    "leaderboard_max_rel_diff": 2.842997016868448e-14
+   },
+   "OOS_risk2": {
+    "label": "OOS risk=2%",
+    "n_bot": 242,
+    "n_ref": 242,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.6257217794191092e-11,
+     "risk": 1.6825651982799172e-11,
+     "ror": 8.271161533457416e-15,
+     "vix_entry": 0.0,
+     "credit": 1.693933882052079e-11,
+     "debit": 0.0
+    },
+    "pass": true,
+    "equity_max_abs_diff": 1.8917489796876907e-10,
+    "final_equity_bot": 129699.37802736842,
+    "final_equity_ref": 129699.37802736861,
+    "entry_weeks_skipped_for_lot_size": 66,
+    "metrics_bot": {
+     "n": 242.0,
+     "cagr": 0.033857488427525784,
+     "sharpe": 1.3512362368847997,
+     "sortino": 1.421116944120735,
+     "maxdd": -0.029570532111754533,
+     "calmar": 1.1449739321419634,
+     "pf": 2.0775115983938606,
+     "win": 0.871900826446281,
+     "exp": 0.07357401736383497,
+     "tpy": 30.985915492957748
+    },
+    "metrics_max_rel_diff_vs_engine": 9.242550929506762e-15,
+    "published_leaderboard": {
+     "n": 242.0,
+     "cagr": 0.033857488427526,
+     "sharpe": 1.3512362368847883,
+     "sortino": 1.421116944120724,
+     "maxdd": -0.0295705321117547,
+     "calmar": 1.1449739321419623,
+     "pf": 2.077511598393871,
+     "win": 0.871900826446281,
+     "exp": 0.0735740173638356,
+     "tpy": 30.985915492957748
+    },
+    "leaderboard_max_rel_diff": 8.676680464434924e-15
+   },
+   "FULL_risk2": {
+    "label": "FULL risk=2%",
+    "n_bot": 695,
+    "n_ref": 695,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.6257217794191092e-11,
+     "risk": 1.6825651982799172e-11,
+     "ror": 8.271161533457416e-15,
+     "vix_entry": 0.0,
+     "credit": 1.693933882052079e-11,
+     "debit": 0.0
+    },
+    "pass": true,
+    "equity_max_abs_diff": 7.8580342233181e-10,
+    "final_equity_bot": 161549.82982224345,
+    "final_equity_ref": 161549.82982224415,
+    "entry_weeks_skipped_for_lot_size": 7,
+    "metrics_bot": {
+     "n": 695.0,
+     "cagr": 0.02582727653314243,
+     "sharpe": 0.908187742160217,
+     "sortino": 0.98713626105814,
+     "maxdd": -0.10550594291037318,
+     "calmar": 0.2447945188744731,
+     "pf": 1.5925731142515258,
+     "win": 0.8345323741007195,
+     "exp": 0.04485433333631871,
+     "tpy": 36.948431685273796
+    },
+    "metrics_max_rel_diff_vs_engine": 1.8409110405347183e-14
+   },
+   "FULL_risk5": {
+    "label": "FULL risk=5%",
+    "n_bot": 698,
+    "n_ref": 698,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.3005774235352874e-10,
+     "risk": 1.3460521586239338e-10,
+     "ror": 8.271161533457416e-15,
+     "vix_entry": 0.0,
+     "credit": 1.355147105641663e-10,
+     "debit": 0.0
+    },
+    "pass": true,
+    "equity_max_abs_diff": 4.94765117764473e-09,
+    "final_equity_bot": 416726.0529585189,
+    "final_equity_ref": 416726.0529585238,
+    "entry_weeks_skipped_for_lot_size": 0,
+    "metrics_bot": {
+     "n": 698.0,
+     "cagr": 0.07883058699636503,
+     "sharpe": 0.9607041387570532,
+     "sortino": 1.072927894805331,
+     "maxdd": -0.25903196172278353,
+     "calmar": 0.30432764540744073,
+     "pf": 1.6831026750028661,
+     "win": 0.833810888252149,
+     "exp": 0.04461551014848511,
+     "tpy": 37.10792131844764
+    },
+    "metrics_max_rel_diff_vs_engine": 1.835212637752361e-14
+   }
+  },
+  "plan_every_day": {
+   "days_checked": 4732,
+   "mismatches": 0,
+   "max_abs_credit_diff": 1.693933882052079e-11,
+   "max_abs_maxloss_diff": 1.6825651982799172e-11,
+   "pass": true
+  },
+  "published": {
+   "risk2": {
+    "label": "FULL risk=2% vs published winner_trades_risk2.csv",
+    "n_bot": 695,
+    "n_ref": 695,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.6257217794191092e-11,
+     "risk": 1.6825651982799172e-11,
+     "ror": 8.271161533457416e-15,
+     "vix_entry": 3.552713678800501e-15,
+     "credit": 1.693933882052079e-11,
+     "debit": 0.0
+    },
+    "pass": true
+   },
+   "equity_risk2_max_abs_diff": 7.8580342233181e-10,
+   "equity_risk2_final_bot": 161549.82982224345,
+   "equity_risk2_final_published": 161549.82982224415,
+   "risk5": {
+    "label": "FULL risk=5% vs published winner_trades_risk5.csv",
+    "n_bot": 698,
+    "n_ref": 698,
+    "categorical_identical": true,
+    "max_abs_diff": {
+     "pnl": 1.3005774235352874e-10,
+     "risk": 1.3460521586239338e-10,
+     "ror": 8.271161533457416e-15,
+     "vix_entry": 3.552713678800501e-15,
+     "credit": 1.355147105641663e-10,
+     "debit": 0.0
+    },
+    "pass": true
+   }
+  },
+  "independent_reimpl": {
+   "IS": {
+    "research_reimpl_trades": 408,
+    "research_reimpl_pnl": 21321.332839461913,
+    "bot_trades": 412,
+    "bot_pnl": 22122.409964037193
+   },
+   "OOS": {
+    "research_reimpl_trades": 242,
+    "research_reimpl_pnl": 29909.906841991204,
+    "bot_trades": 242,
+    "bot_pnl": 29699.3780273683
+   }
+  },
+  "pass": true
+ },
+ "live_loop": [
+  {
+   "name": "OOS from $100k, alert+reconcile every day",
+   "window": "2019-01-01..2026-10-23",
+   "cash0": 100000.0,
+   "days": 1964,
+   "days_never_run": 0,
+   "runner_errors": 0,
+   "trades_ledger": 242,
+   "trades_engine": 242,
+   "alert_messages": 550,
+   "difference_notices": 0,
+   "seconds": 12.2,
+   "categorical_identical": true,
+   "max_abs_trade_diff": 1.432454155292362e-11,
+   "equity_rows": 1964,
+   "equity_rows_engine": 1964,
+   "equity_vs_uncapped_replay_max_abs_diff": 1.1641532182693481e-10,
+   "equity_vs_engine_max_abs_diff_before_boundary": 1.0186340659856796e-10,
+   "engine_end_of_data_expiry_cap_boundary": null,
+   "days_differing_from_engine_after_boundary": 0,
+   "equity_max_abs_diff": 1.1641532182693481e-10,
+   "final_cash_ledger": 129699.37802736853,
+   "final_cash_engine_equity": 129699.37802736861,
+   "final_state_last_date": "2026-10-23",
+   "open_position_at_end": false,
+   "pass": true
+  },
+  {
+   "name": "OOS from $100k, 15% of days never run (catch-up)",
+   "window": "2019-01-01..2026-10-23",
+   "cash0": 100000.0,
+   "days": 1964,
+   "days_never_run": 292,
+   "runner_errors": 0,
+   "trades_ledger": 242,
+   "trades_engine": 242,
+   "alert_messages": 0,
+   "difference_notices": 0,
+   "seconds": 8.4,
+   "categorical_identical": true,
+   "max_abs_trade_diff": 1.432454155292362e-11,
+   "equity_rows": 1964,
+   "equity_rows_engine": 1964,
+   "equity_vs_uncapped_replay_max_abs_diff": 1.1641532182693481e-10,
+   "equity_vs_engine_max_abs_diff_before_boundary": 1.0186340659856796e-10,
+   "engine_end_of_data_expiry_cap_boundary": null,
+   "days_differing_from_engine_after_boundary": 0,
+   "equity_max_abs_diff": 1.1641532182693481e-10,
+   "final_cash_ledger": 129699.37802736853,
+   "final_cash_engine_equity": 129699.37802736861,
+   "final_state_last_date": "2026-10-23",
+   "open_position_at_end": false,
+   "pass": true
+  },
+  {
+   "name": "FULL 2008-2026 from $100k, alert+reconcile every day",
+   "window": "2008-01-01..2026-10-23",
+   "cash0": 100000.0,
+   "days": 4733,
+   "days_never_run": 0,
+   "runner_errors": 0,
+   "trades_ledger": 695,
+   "trades_engine": 695,
+   "alert_messages": 1397,
+   "difference_notices": 0,
+   "seconds": 51.0,
+   "categorical_identical": true,
+   "max_abs_trade_diff": 1.432454155292362e-11,
+   "equity_rows": 4733,
+   "equity_rows_engine": 4733,
+   "equity_vs_uncapped_replay_max_abs_diff": 1.4551915228366852e-10,
+   "equity_vs_engine_max_abs_diff_before_boundary": 7.275957614183426e-10,
+   "engine_end_of_data_expiry_cap_boundary": "2026-10-19",
+   "days_differing_from_engine_after_boundary": 5,
+   "equity_max_abs_diff": 7.275957614183426e-10,
+   "final_cash_ledger": 162251.11514722471,
+   "final_cash_engine_equity": 161549.82982224415,
+   "final_state_last_date": "2026-10-23",
+   "open_position_at_end": true,
+   "pass": true
+  }
+ ],
+ "mutation": {
+  "baseline_unmutated_differs": false,
+  "mutants": [
+   {
+    "mutant": "delta 0.40 -> 0.30",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "delta 0.40 -> 0.41",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "dte 14 -> 15",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "width 5% -> 4%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "profit target 50% -> 49%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "stop 2.0x -> 2.1x",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "stop removed",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "risk 2% -> 2.1%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "slippage 100% -> 99%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "commission 0.65 -> 0.64",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "div yield 1.5% -> 1.51%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "skew_down 0.35 -> 0.36",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "skew_up 0.10 -> 0.11",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "pin fee 25 -> 0",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "pin zone 0.25% -> 0.30%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "half-spread pct 2% -> 2.1%",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "IV term slope 0.04 -> 0.041",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "IV floor 8% -> 9%",
+    "caught": true,
+    "caught_on": "FULL"
+   },
+   {
+    "mutant": "far-OTM spread mult 1.5 -> 1.0",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "entry-day rule '<=' -> '<'",
+    "caught": false,
+    "caught_on": "-"
+   },
+   {
+    "mutant": "entry only on Mondays (holiday weeks skipped)",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "long strike truncated with int() instead of round()",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "short strike floored instead of rounded",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "lots: ceil instead of floor",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "no same-day re-entry after an exit",
+    "caught": true,
+    "caught_on": "OOS"
+   },
+   {
+    "mutant": "expiry settled one day late",
+    "caught": true,
+    "caught_on": "OOS"
+   }
+  ],
+  "total": 26,
+  "caught": 25,
+  "survivors": [
+   "entry-day rule '<=' -> '<'"
+  ],
+  "survivor_explanations": {
+   "entry-day rule '<=' -> '<'": "differs only if two consecutive trading days fall on the same weekday (a gap of exactly 7 days); number of such gaps in the 2007-2026 SPY data = 0"
+  },
+  "pass": true
+ },
+ "yahoo": {
+  "SPY": {
+   "days_compared": 44,
+   "max_abs_diff": 0.0,
+   "missing_in_yahoo": 0
+  },
+  "^VIX": {
+   "days_compared": 45,
+   "max_abs_diff": 0.0,
+   "missing_in_yahoo": 0
+  },
+  "^TNX": {
+   "days_compared": 44,
+   "max_abs_diff": 0.0,
+   "missing_in_yahoo": 0
+  },
+  "live_quote_spy": {
+   "price": 759.97,
+   "time_utc": "2026-10-23T20:00:00+00:00"
+  },
+  "end_to_end_reconcile_dry_run": {
+   "returncode": 0,
+   "message": "SPY-BPS Fri Oct 23 close: no action. Flat, paper ledger $161,550. Next entry check: Mon Oct 26."
+  },
+  "pass": true,
+  "ran": true
+ },
+ "sensitivity": [
+  {
+   "assumed_spy_noise_pct": 0.05,
+   "assumed_vix_noise_pts": 0.1,
+   "entry_dates": 695,
+   "same_strikes_pct": 89.2,
+   "same_short_strike_pct": 89.5,
+   "median_credit_change_per_share": 0.027
+  },
+  {
+   "assumed_spy_noise_pct": 0.1,
+   "assumed_vix_noise_pts": 0.2,
+   "entry_dates": 695,
+   "same_strikes_pct": 77.7,
+   "same_short_strike_pct": 78.4,
+   "median_credit_change_per_share": 0.052
+  },
+  {
+   "assumed_spy_noise_pct": 0.2,
+   "assumed_vix_noise_pts": 0.4,
+   "entry_dates": 695,
+   "same_strikes_pct": 61.7,
+   "same_short_strike_pct": 62.4,
+   "median_credit_change_per_share": 0.094
+  }
+ ],
+ "pass": true,
+ "seconds": 160
+}

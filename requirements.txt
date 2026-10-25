@@ -1,0 +1,6 @@
+# The bot itself uses only the Python standard library (3.11+). Nothing to install to run it.
+# Tests and verification (not needed on the scheduler):
+pytest
+pandas
+numpy
+scipy

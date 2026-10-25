@@ -1,0 +1,36 @@
+# After the close: apply the OFFICIAL close to the paper ledger (the only step that changes it) and post a status.
+# Two crons cover daylight and standard time; the program waits until 4:10 pm ET, is idempotent, and catches up any missed days.
+name: reconcile
+on:
+  schedule:
+    - cron: "20 20 * * 1-5"
+    - cron: "20 21 * * 1-5"
+  workflow_dispatch:
+concurrency:
+  group: bps-ledger
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reconcile
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ACCOUNT_EQUITY: ${{ vars.ACCOUNT_EQUITY }}
+        run: python -m bps_bot.run reconcile
+      - name: Commit ledger
+        if: always()
+        run: |
+          git config user.name "bps-bot"; git config user.email "bps-bot@users.noreply.github.com"
+          git add ledger
+          if ! git diff --cached --quiet; then
+            git commit -m "ledger: $(date -u +%F)"
+            for i in 1 2 3; do git pull --rebase origin "${GITHUB_REF_NAME}" && git push && break || sleep 5; done
+          fi

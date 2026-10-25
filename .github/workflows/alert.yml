@@ -1,0 +1,39 @@
+# ~3:45 pm ET on trading days: read live SPY/VIX/10y prices and post what the rules would do at today's close.
+# Never changes the paper ledger and never places an order. Two crons cover daylight and standard time; the program itself only
+# acts between 3:30 and 4:00 pm ET, so the other cron (and any late GitHub start) is a quiet no-op.
+# GitHub's own scheduler can start jobs hours late. For an on-time alert, also add this workflow to your Cloudflare open-scheduler
+# (see README, "Scheduling").
+name: alert
+on:
+  schedule:
+    - cron: "45 19 * * 1-5"
+    - cron: "45 20 * * 1-5"
+  workflow_dispatch:
+concurrency:
+  group: bps-ledger
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Alert
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ACCOUNT_EQUITY: ${{ vars.ACCOUNT_EQUITY }}
+        run: python -m bps_bot.run alert
+      - name: Save what the alert said (so the after-close run can compare)
+        if: always()
+        run: |
+          git config user.name "bps-bot"; git config user.email "bps-bot@users.noreply.github.com"
+          git add ledger
+          if ! git diff --cached --quiet; then
+            git commit -m "ledger: pending alert $(date -u +%F)"
+            for i in 1 2 3; do git pull --rebase origin "${GITHUB_REF_NAME}" && git push && break || sleep 5; done
+          fi
