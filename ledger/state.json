@@ -2,21 +2,9 @@
  "spec_hash": "40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196",
  "spec_id": "BP_d40_D14_W5_PT50_SL2",
  "state": {
-  "cash": 162253.44551323238,
-  "last_date": "2026-11-03",
-  "position": {
-   "credit0": 703.6156909882353,
-   "debit0": 0.0,
-   "entry_cf": 703.6156909882353,
-   "entry_date": "2026-10-26",
-   "entry_spot": 765.3699951171875,
-   "expiry_date": "2026-11-09",
-   "long_k": 722,
-   "maxloss": 3096.384309011765,
-   "n": 1,
-   "short_k": 760,
-   "vix0": 18.389999389648438
-  }
+  "cash": 161980.3379130063,
+  "last_date": "2026-11-04",
+  "position": null
  },
  "version": 1
 }
