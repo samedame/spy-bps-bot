@@ -26,7 +26,7 @@ jobs:
       - name: Alert
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          ACCOUNT_EQUITY: ${{ vars.ACCOUNT_EQUITY }}
+          ACCOUNT_EQUITY: ${{ vars.ACCOUNT_EQUITY || '1500' }}   # default 1500; a repo variable overrides it
         run: python -m bps_bot.run alert
       - name: Save what the alert said (so the after-close run can compare)
         if: always()
