@@ -6,6 +6,15 @@ on:
     - cron: "20 20 * * 1-5"
     - cron: "20 21 * * 1-5"
   workflow_dispatch:
+    inputs:
+      scheduled_for_et:
+        description: "Intended fire time (ET, ISO-8601). Set by open-scheduler (ignored by the bot)."
+        required: false
+        default: ""
+      trigger:
+        description: "Who started this run (cf-scheduler | test | manual)"
+        required: false
+        default: "manual"
 concurrency:
   group: bps-ledger
   cancel-in-progress: false
