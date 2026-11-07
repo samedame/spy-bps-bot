@@ -101,3 +101,11 @@ def difference_notice(alert_said: str, final_says: str) -> str:
 
 def error_notice(what: str, how_to_fix: str) -> str:
     return fit_discord(f"**SPY-BPS ERROR - {what}**\n{how_to_fix}\nThe paper ledger was NOT changed by this failed step.")
+
+
+def missed_window_notice(started_et: str, window: str) -> str:
+    return fit_discord(
+        f"**SPY-BPS - MISSED WINDOW, no alert sent today.** The alert run started at {started_et} ET, after the "
+        f"{window} ET window it needs, and no earlier run covered today. If the rules might act at today's close "
+        f"(an entry or exit day), check SPY, VIX and the 10-year yield by hand. The after-close run still updates the "
+        f"paper ledger. (One notice per day.)")

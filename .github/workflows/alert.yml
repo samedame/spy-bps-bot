@@ -9,6 +9,15 @@ on:
     - cron: "45 19 * * 1-5"
     - cron: "45 20 * * 1-5"
   workflow_dispatch:
+    inputs:
+      scheduled_for_et:
+        description: "Intended fire time (ET, ISO-8601). Set by open-scheduler."
+        required: false
+        default: ""
+      trigger:
+        description: "Who started this run (cf-scheduler | test | manual)"
+        required: false
+        default: "manual"
 concurrency:
   group: bps-ledger
   cancel-in-progress: false
@@ -23,10 +32,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Log capital source
+        env:
+          CAPITAL_VAR: ${{ vars.ACCOUNT_EQUITY }}
+        run: |
+          if [ -n "$CAPITAL_VAR" ]; then echo "capital=$CAPITAL_VAR source=repo-variable"; else echo "capital=1500 source=default"; fi
       - name: Alert
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           ACCOUNT_EQUITY: ${{ vars.ACCOUNT_EQUITY || '1500' }}   # default 1500; a repo variable overrides it
+          # "schedule" or "cf-scheduler" = a timed start: outside 15:30-16:00 ET with no earlier run today, ONE
+          # "missed window" notice goes to Discord. "manual"/"test" never do.
+          RUN_TRIGGER: ${{ inputs.trigger || github.event_name }}
         run: python -m bps_bot.run alert
       - name: Save what the alert said (so the after-close run can compare)
         if: always()
@@ -37,3 +54,11 @@ jobs:
             git commit -m "ledger: pending alert $(date -u +%F)"
             for i in 1 2 3; do git pull --rebase origin "${GITHUB_REF_NAME}" && git push && break || sleep 5; done
           fi
+
+      # A job that crashes posts nothing, and "no alert" looks exactly like "no signal". Best effort, never fails the run.
+      - name: Tell Discord if this run failed
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python notify_failure.py "SPY BPS alert"
