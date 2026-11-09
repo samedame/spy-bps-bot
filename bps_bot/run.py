@@ -25,8 +25,9 @@ from zoneinfo import ZoneInfo
 from . import calendar_nyse as CAL
 from . import messages as MSG
 from .data import DataUnavailable, Feed, YahooFeed, final_bars, provisional_bar
-from .engine import Bar, State, equity_mtm, step
+from .engine import Bar, State, equity_mtm, rate_from, step
 from .ledger import Ledger
+from . import assignment_guard as AG
 from .spec import RESEARCH_DATA_END, RESEARCH_FULL_RUN_FINAL_EQUITY, SPEC, VERIFIED_SPEC_HASH, spec_hash
 
 ET = ZoneInfo("America/New_York")
@@ -194,6 +195,10 @@ def cmd_alert(a, led: Ledger, feed: Feed, notifier: Notifier, now_utc: datetime)
             notifier.post(MSG.entry_alert(ev["plan"], ev["n"], ev["sizing_equity"], ue, True))
         else:
             notifier.post(MSG.entry_skipped_alert(ev["plan"], ev["sizing_equity"], ev["budget"], ue, True))
+    if AG.enabled():   # advisory only: one extra message, never touches events, signatures or the ledger
+        adv = AG.assess(state.position, bar, today, CAL.next_trading_day(today), rate_from(bar))
+        if adv:
+            notifier.post(MSG.fit_discord(AG.message(adv)))
     if not a.dry_run:
         led.save_pending({"date": today.isoformat(), "signatures": [sig(e) for e in events]})
     return 0

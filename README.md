@@ -60,3 +60,8 @@ Held against the research engine run fresh, the research's published trade files
 Not verified: real option quotes and fills (the strategy's prices are a proxy), Discord delivery and scheduler timing, and whether the strategy has an edge.
 
 Re-run: `RESEARCH_DIR=/path/to/options_research python verification/run_all.py` (about 3 minutes; needs pandas, numpy, scipy, pytest). `python -m pytest tests -q` needs only pytest. If the bot lives at `options_research/bot/`, `RESEARCH_DIR` defaults to the parent folder.
+
+## Assignment guard (advisory only)
+SPY options are American-style and physically settled. `bps_bot/assignment_guard.py` adds **one extra Discord message** at the 3:45 pm alert when the open model position's short put is in the money AND (its modeled extrinsic value is under $0.05, or it expires today/next session, or an estimated ex-dividend date is within 3 days):
+`ASSIGNMENT RISK: short leg ITM, extrinsic $x (modeled), ex-div in n days (est.), close/roll before 15:55 ET today`.
+It never changes entry, exit, sizing, the paper ledger, the pending-alert signatures or `spec_hash`. `ASSIGNMENT_GUARD=0` turns it off; with it off the alerts and ledger files are byte-identical to the unguarded bot (differential test against `tests/golden_baseline.json`). Extrinsic value is the bot's Black-Scholes proxy and the ex-dividend date is a third-Friday estimate; check your broker.

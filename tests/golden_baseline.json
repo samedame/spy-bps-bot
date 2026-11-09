@@ -1,0 +1,71 @@
+{
+ "deep_itm_midlife": {
+  "alert": [
+   "**SPY BULL PUT SPREAD - CLOSE - stop hit** (provisional 3:45 pm ET read)\nModel position: 3 x 700P/665P, expiry Fri Nov 20, opened Mon Oct 26. SPY 650.00.\nIf you hold this spread: buy back the short put and sell the long put as ONE order before the close.\nModel result: -$8,560 on this trade (-92.0% of max risk)."
+  ],
+  "alert_rc": 0,
+  "files": {
+   "equity.csv": "date,equity_mtm,cash,open_position\n2026-11-06,190239.5645993518,190239.5645993518,0\n",
+   "state.json": "{\n \"spec_hash\": \"40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196\",\n \"spec_id\": \"BP_d40_D14_W5_PT50_SL2\",\n \"state\": {\n  \"cash\": 190239.5645993518,\n  \"last_date\": \"2026-11-06\",\n  \"position\": null\n },\n \"version\": 1\n}\n",
+   "trades.csv": "entry,exit,pnl,risk,ror,reason,vix_entry,credit,debit,contracts,short_k,long_k,expiry\n2026-10-26,2026-11-06,-8560.43540064819,9300.0,-0.9204769248008806,stop_loss,19.0,1200.0,0.0,3,700,665,2026-11-20\n"
+  },
+  "reconcile": [
+   "SPY-BPS Fri Nov 06: the official close confirms the 3:45 pm alert - close 700P/665P (stop loss, model -$8,560). Paper ledger $190,240."
+  ],
+  "reconcile_rc": 0
+ },
+ "itm_day_before_expiry": {
+  "alert": [],
+  "alert_rc": 0,
+  "files": {
+   "equity.csv": "date,equity_mtm,cash,open_position\n2026-11-06,198445.7546131227,200000.0,1\n",
+   "state.json": "{\n \"spec_hash\": \"40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196\",\n \"spec_id\": \"BP_d40_D14_W5_PT50_SL2\",\n \"state\": {\n  \"cash\": 200000.0,\n  \"last_date\": \"2026-11-06\",\n  \"position\": {\n   \"credit0\": 1200.0,\n   \"debit0\": 0.0,\n   \"entry_cf\": 1200.0,\n   \"entry_date\": \"2026-10-26\",\n   \"entry_spot\": 760.0,\n   \"expiry_date\": \"2026-11-09\",\n   \"long_k\": 665,\n   \"maxloss\": 9300.0,\n   \"n\": 3,\n   \"short_k\": 700,\n   \"vix0\": 19.0\n  }\n },\n \"version\": 1\n}\n"
+  },
+  "reconcile": [
+   "SPY-BPS Fri Nov 06 close: no action. Holding 3 x 700P/665P exp Mon Nov 09; open P&L -$354; exits at +$600 (target) or -$2,400 (stop); paper cash $198,446."
+  ],
+  "reconcile_rc": 0
+ },
+ "itm_on_expiry_day": {
+  "alert": [
+   "**SPY BULL PUT SPREAD - EXPIRY DAY** (provisional 3:45 pm ET read)\nModel position: 3 x 700P/665P, expiry Fri Nov 06, opened Mon Oct 26. SPY 650.00.\nModel settles at the cash intrinsic value today. If you hold the real spread and SPY is below your short strike, close it as one order before 4:00 pm ET (SPY is American-style: a short put in the money can be assigned).\nModel result: -$9,300 on this trade (-100.0% of max risk)."
+  ],
+  "alert_rc": 0,
+  "files": {
+   "equity.csv": "date,equity_mtm,cash,open_position\n2026-11-06,189500.0,189500.0,0\n",
+   "state.json": "{\n \"spec_hash\": \"40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196\",\n \"spec_id\": \"BP_d40_D14_W5_PT50_SL2\",\n \"state\": {\n  \"cash\": 189500.0,\n  \"last_date\": \"2026-11-06\",\n  \"position\": null\n },\n \"version\": 1\n}\n",
+   "trades.csv": "entry,exit,pnl,risk,ror,reason,vix_entry,credit,debit,contracts,short_k,long_k,expiry\n2026-10-26,2026-11-06,-9300.0,9300.0,-1.0,expiry,19.0,1200.0,0.0,3,700,665,2026-11-06\n"
+  },
+  "reconcile": [
+   "SPY-BPS Fri Nov 06: the official close confirms the 3:45 pm alert - close 700P/665P (expiry, model -$9,300). Paper ledger $189,500."
+  ],
+  "reconcile_rc": 0
+ },
+ "otm_midlife": {
+  "alert": [
+   "**SPY BULL PUT SPREAD - CLOSE - profit target hit** (provisional 3:45 pm ET read)\nModel position: 3 x 700P/665P, expiry Fri Nov 20, opened Mon Oct 26. SPY 750.00.\nIf you hold this spread: buy back the short put and sell the long put as ONE order before the close.\nModel result: $1,101 on this trade (+11.8% of max risk)."
+  ],
+  "alert_rc": 0,
+  "files": {
+   "equity.csv": "date,equity_mtm,cash,open_position\n2026-11-06,199900.9554099893,199900.9554099893,0\n",
+   "state.json": "{\n \"spec_hash\": \"40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196\",\n \"spec_id\": \"BP_d40_D14_W5_PT50_SL2\",\n \"state\": {\n  \"cash\": 199900.9554099893,\n  \"last_date\": \"2026-11-06\",\n  \"position\": null\n },\n \"version\": 1\n}\n",
+   "trades.csv": "entry,exit,pnl,risk,ror,reason,vix_entry,credit,debit,contracts,short_k,long_k,expiry\n2026-10-26,2026-11-06,1100.9554099893248,9300.0,0.11838230214938977,profit_target,19.0,1200.0,0.0,3,700,665,2026-11-20\n"
+  },
+  "reconcile": [
+   "SPY-BPS Fri Nov 06: the official close confirms the 3:45 pm alert - close 700P/665P (profit target, model $1,101). Paper ledger $199,901."
+  ],
+  "reconcile_rc": 0
+ },
+ "shallow_itm_midlife": {
+  "alert": [],
+  "alert_rc": 0,
+  "files": {
+   "equity.csv": "date,equity_mtm,cash,open_position\n2026-11-06,197029.13350827602,200000.0,1\n",
+   "state.json": "{\n \"spec_hash\": \"40a007e6d8b8eb17c0d2076d78f837a93a926ede18e7f09357c92f807d10c196\",\n \"spec_id\": \"BP_d40_D14_W5_PT50_SL2\",\n \"state\": {\n  \"cash\": 200000.0,\n  \"last_date\": \"2026-11-06\",\n  \"position\": {\n   \"credit0\": 1200.0,\n   \"debit0\": 0.0,\n   \"entry_cf\": 1200.0,\n   \"entry_date\": \"2026-10-26\",\n   \"entry_spot\": 760.0,\n   \"expiry_date\": \"2026-11-20\",\n   \"long_k\": 665,\n   \"maxloss\": 9300.0,\n   \"n\": 3,\n   \"short_k\": 700,\n   \"vix0\": 19.0\n  }\n },\n \"version\": 1\n}\n"
+  },
+  "reconcile": [
+   "SPY-BPS Fri Nov 06 close: no action. Holding 3 x 700P/665P exp Fri Nov 20; open P&L -$1,771; exits at +$600 (target) or -$2,400 (stop); paper cash $197,029."
+  ],
+  "reconcile_rc": 0
+ }
+}
