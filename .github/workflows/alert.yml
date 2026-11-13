@@ -5,9 +5,10 @@
 # (see README, "Scheduling").
 name: alert
 on:
-  schedule:
-    - cron: "45 19 * * 1-5"
-    - cron: "45 20 * * 1-5"
+  # DISABLED (superseded by Premium-Sleeve): schedule removed (fleet scan). Re-enable by restoring the block below.
+  # schedule:
+  #   - cron: "45 19 * * 1-5"
+  #   - cron: "45 20 * * 1-5"
   workflow_dispatch:
 concurrency:
   group: bps-ledger
@@ -16,6 +17,7 @@ permissions:
   contents: write
 jobs:
   alert:
+    if: ${{ vars.RETIRED_ENABLED == 'true' }}   # off-switch: set this repo variable to 'true' to run (also blocks Worker dispatches)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

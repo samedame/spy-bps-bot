@@ -2,9 +2,10 @@
 # Two crons cover daylight and standard time; the program waits until 4:10 pm ET, is idempotent, and catches up any missed days.
 name: reconcile
 on:
-  schedule:
-    - cron: "20 20 * * 1-5"
-    - cron: "20 21 * * 1-5"
+  # DISABLED (superseded by Premium-Sleeve): schedule removed (fleet scan). Re-enable by restoring the block below.
+  # schedule:
+  #   - cron: "20 20 * * 1-5"
+  #   - cron: "20 21 * * 1-5"
   workflow_dispatch:
 concurrency:
   group: bps-ledger
@@ -13,6 +14,7 @@ permissions:
   contents: write
 jobs:
   reconcile:
+    if: ${{ vars.RETIRED_ENABLED == 'true' }}   # off-switch: set this repo variable to 'true' to run (also blocks Worker dispatches)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
