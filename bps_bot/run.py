@@ -163,6 +163,61 @@ def cmd_status(a, led: Ledger) -> int:
     return 0
 
 
+WINDOW_GUARD_FILE = "alert_window.json"        # lives in the ledger dir, which the workflow commits back
+SCHEDULED_TRIGGERS = {"schedule", "cf-scheduler"}   # a human's "Run workflow" click (manual / test) never raises the notice
+
+
+def _guard_path(led: Ledger) -> str:
+    return os.path.join(led.dir, WINDOW_GUARD_FILE)
+
+
+def _guard_read(led: Ledger, today: date) -> dict:
+    try:
+        with open(_guard_path(led)) as f:
+            d = json.load(f)
+        return d if d.get("date") == today.isoformat() else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _guard_write(led: Ledger, today: date, **fields) -> None:
+    """Best effort: a failed marker write must never break the alert."""
+    try:
+        cur = _guard_read(led, today)
+        cur.update(fields, date=today.isoformat())
+        os.makedirs(led.dir, exist_ok=True)
+        with open(_guard_path(led), "w") as f:
+            json.dump(cur, f, sort_keys=True)
+    except OSError as e:
+        print(f"[window guard] could not write marker: {e}", file=sys.stderr)
+
+
+def missed_window_check(a, led: Ledger, notifier: Notifier, now: datetime, env=None) -> bool:
+    """Run only when the alert is OUTSIDE its window on a scheduled trigger (the run_guard.py pattern).
+
+    * before the window: silent (the wrong-DST-season copy of the cron, or an early start);
+    * after the window, and an in-window run already happened today: silent (the other cron's duplicate);
+    * after the window and NO run covered today: post ONE 'missed window' notice for the day.
+    Fail-soft: never raises and never changes the exit code. The window itself is NOT widened. Returns True if posted.
+    """
+    env = os.environ if env is None else env
+    try:
+        if (env.get("RUN_TRIGGER") or "") not in SCHEDULED_TRIGGERS or a.dry_run:
+            return False
+        if now.time() < ALERT_OPEN:
+            return False
+        today = now.date()
+        g = _guard_read(led, today)
+        if g.get("in_window_run") or g.get("missed_notified"):
+            return False
+        notifier.post(MSG.missed_window_notice(f"{now:%H:%M}", f"{ALERT_OPEN:%H:%M}-{ALERT_CLOSE:%H:%M}"))
+        _guard_write(led, today, missed_notified=True)
+        return True
+    except Exception as e:  # noqa: BLE001 - Discord down, no webhook, anything: the notice is best effort
+        print(f"[window guard] notice failed: {type(e).__name__}: {e}", file=sys.stderr)
+        return False
+
+
 def cmd_alert(a, led: Ledger, feed: Feed, notifier: Notifier, now_utc: datetime) -> int:
     now = now_utc.astimezone(ET)
     today = now.date()
@@ -171,7 +226,10 @@ def cmd_alert(a, led: Ledger, feed: Feed, notifier: Notifier, now_utc: datetime)
         return 0
     if not (ALERT_OPEN <= now.time() < ALERT_CLOSE) and not a.force_window:
         print(f"{now:%H:%M} ET is outside the {ALERT_OPEN:%H:%M}-{ALERT_CLOSE:%H:%M} alert window; nothing sent")
+        missed_window_check(a, led, notifier, now)
         return 0
+    if not a.dry_run:
+        _guard_write(led, today, in_window_run=True)
     state = led.load_state()
     if state.last_date and date.fromisoformat(state.last_date) >= today:
         print(f"ledger already includes {state.last_date}; nothing to alert")

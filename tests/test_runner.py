@@ -148,3 +148,57 @@ def test_stale_yield_is_tolerated_but_stale_spy_is_not(env):
         def live_quote(self, sym):
             ages = {"SPY": 40, "^VIX": 1, "^TNX": 1}; return {"SPY": 760.0, "^VIX": 19.0, "^TNX": 4.5}[sym], now - timedelta(minutes=ages[sym])
     with pytest.raises(DataUnavailable): provisional_bar(G(), date(2026,10,26), now)
+
+
+# ---- missed-window notice (scheduled starts outside 15:30-16:00 ET) ----
+def run_trig(cmd, env, now, trigger, extra=()):
+    led, feed, tmp = env; feed.now = now; hook = Hook()
+    os.environ["RUN_TRIGGER"] = trigger
+    try:
+        rc = R.main([cmd, "--ledger", str(tmp), "--retries", "1", *extra], feed=feed, notifier=hook, now_utc=now)
+    finally:
+        os.environ.pop("RUN_TRIGGER", None)
+    return rc, hook.sent
+
+def test_late_scheduled_start_posts_one_missed_window_notice_per_day(env):
+    led, feed, tmp = env; feed.live = {"SPY": 760.0, "^VIX": 19.0, "^TNX": 4.5}
+    rc, sent = run_trig("alert", env, et(2026,10,26,17,45), "schedule")
+    assert rc == 0 and len(sent) == 1 and "MISSED WINDOW" in sent[0]
+    rc, sent = run_trig("alert", env, et(2026,10,26,17,50), "cf-scheduler")      # same day again -> silent
+    assert rc == 0 and sent == []
+    rc, sent = run_trig("alert", env, et(2026,10,27,17,45), "schedule")          # next day -> one more
+    assert rc == 0 and len(sent) == 1
+
+def test_in_window_run_makes_the_other_crons_late_copy_silent(env):
+    led, feed, tmp = env; feed.live = {"SPY": 760.0, "^VIX": 19.0, "^TNX": 4.5}
+    rc, sent = run_trig("alert", env, et(2026,10,26,15,45), "schedule"); assert rc == 0 and "ENTRY" in sent[0]
+    rc, sent = run_trig("alert", env, et(2026,10,26,16,45), "schedule"); assert rc == 0 and sent == []
+
+def test_early_wrong_season_copy_is_silent_and_does_not_block_the_real_run(env):
+    led, feed, tmp = env; feed.live = {"SPY": 760.0, "^VIX": 19.0, "^TNX": 4.5}
+    rc, sent = run_trig("alert", env, et(2026,10,26,14,45), "schedule"); assert rc == 0 and sent == []
+    rc, sent = run_trig("alert", env, et(2026,10,26,15,45), "schedule"); assert rc == 0 and "ENTRY" in sent[0]
+
+def test_manual_and_test_runs_never_post_the_notice(env):
+    for trig in ("manual", "test", ""):
+        rc, sent = run_trig("alert", env, et(2026,10,26,17,45), trig); assert rc == 0 and sent == []
+
+def test_non_trading_day_and_dry_run_stay_silent(env):
+    rc, sent = run_trig("alert", env, et(2026,11,26,17,45), "schedule"); assert rc == 0 and sent == []      # Thanksgiving
+    rc, sent = run_trig("alert", env, et(2026,10,26,17,45), "schedule", ("--dry-run",)); assert rc == 0 and sent == []
+
+def test_notice_failure_is_fail_soft(env):
+    led, feed, tmp = env; feed.now = et(2026,10,26,17,45)
+    class Boom:
+        def post(self, text): raise RuntimeError("DISCORD_WEBHOOK_URL is not set")
+    os.environ["RUN_TRIGGER"] = "schedule"
+    try:
+        rc = R.main(["alert", "--ledger", str(tmp)], feed=feed, notifier=Boom(), now_utc=et(2026,10,26,17,45))
+    finally:
+        os.environ.pop("RUN_TRIGGER", None)
+    assert rc == 0                                           # exit code unchanged
+
+def test_window_is_not_widened(env):
+    led, feed, tmp = env; feed.live = {"SPY": 760.0, "^VIX": 19.0, "^TNX": 4.5}
+    assert (R.ALERT_OPEN.hour, R.ALERT_OPEN.minute, R.ALERT_CLOSE.hour, R.ALERT_CLOSE.minute) == (15, 30, 16, 0)
+    rc, sent = run_trig("alert", env, et(2026,10,26,16,1), "manual"); assert sent == []

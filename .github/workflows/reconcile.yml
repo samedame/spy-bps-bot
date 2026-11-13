@@ -7,6 +7,15 @@ on:
   #   - cron: "20 20 * * 1-5"
   #   - cron: "20 21 * * 1-5"
   workflow_dispatch:
+    inputs:
+      scheduled_for_et:
+        description: "Intended fire time (ET, ISO-8601). Set by open-scheduler (ignored by the bot)."
+        required: false
+        default: ""
+      trigger:
+        description: "Who started this run (cf-scheduler | test | manual)"
+        required: false
+        default: "manual"
 concurrency:
   group: bps-ledger
   cancel-in-progress: false
@@ -22,6 +31,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Log capital source
+        env:
+          CAPITAL_VAR: ${{ vars.ACCOUNT_EQUITY }}
+        run: |
+          if [ -n "$CAPITAL_VAR" ]; then echo "capital=$CAPITAL_VAR source=repo-variable"; else echo "capital=1500 source=default"; fi
       - name: Reconcile
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -36,3 +50,11 @@ jobs:
             git commit -m "ledger: $(date -u +%F)"
             for i in 1 2 3; do git pull --rebase origin "${GITHUB_REF_NAME}" && git push && break || sleep 5; done
           fi
+
+      # A job that crashes posts nothing, and "no alert" looks exactly like "no signal". Best effort, never fails the run.
+      - name: Tell Discord if this run failed
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python notify_failure.py "SPY BPS reconcile"
